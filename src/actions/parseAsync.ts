@@ -1,6 +1,7 @@
 import * as app from '..';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import {traceAsync} from './helpers/traceAsync';
 
 export async function parseAsync(paths: Array<string>, options: app.Options) {
   for (const path of paths) {
@@ -35,16 +36,5 @@ async function directoryAsync(directoryPath: string, options: app.Options) {
       await fs.promises.unlink(imagePath).catch(() => {});
       await checkAsync(path, options);
     }
-  }
-}
-
-async function traceAsync(filePath: string, resultAsync: Promise<boolean>) {
-  try {
-    const result = await resultAsync;
-    const status = result ? 'OK' : 'Not Found';
-    console.log(`Finished ${filePath} (${status})`);
-  } catch (err) {
-    const status = err instanceof Error ? err.stack : err;
-    console.log(`Rejected ${filePath}: ${status}`);
   }
 }
