@@ -6,7 +6,7 @@ import sanitizeFilename from 'sanitize-filename';
 
 export async function runAsync(filePath: string, value: app.Metadata) {
   const {dir, ext} = path.parse(filePath);
-  const fileName = sanitizeFilename(value.title).substring(0, 245).trim();
+  const fileName = sanitizeFilename(value.title).substring(0, 120).trim();
   const imagePath = path.join(dir, `${fileName}.jpg`);
   const videoPath = path.join(dir, `${fileName}${ext}`);
   await fileAsync(filePath, videoPath);
