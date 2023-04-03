@@ -1,0 +1,40 @@
+{
+  "name": "javit",
+  "author": "Blastradius",
+  "description": "Matches JAV videos and normalizes metadata.",
+  "license": "MIT",
+  "repository": "git://github.com/XRadius/javit",
+  "version": "1.0.0",
+  "main": "dist",
+  "types": "dist",
+  "bin": {
+    "javit": "./bin/javit"
+  },
+  "engines": {
+    "node": ">= 18.0.0",
+    "npm": ">= 8.0.0"
+  },
+  "dependencies": {
+    "cheerio": "1.0.0-rc.12",
+    "commander": "9.4.1",
+    "luxon": "3.2.1",
+    "sanitize-filename": "1.6.3"
+  },
+  "devDependencies": {
+    "@types/luxon": "3.2.0",
+    "@types/node": "18.11.18",
+    "pre-commit": "1.2.2",
+    "prettier": "2.8.1",
+    "rimraf": "3.0.2",
+    "typescript": "4.9.4"
+  },
+  "scripts": {
+    "prepack": "npm run repository:prune && npm run repository:build",
+    "prettier:check": "prettier --check .",
+    "prettier:write": "prettier --write .",
+    "repository:build": "tsc",
+    "repository:prune": "rimraf build && rimraf dist",
+    "start": "node .",
+    "test": "npm run prettier:check"
+  }
+}

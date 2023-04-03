@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.strict.json",
+  "compilerOptions": {
+    "declaration": true,
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "sourceMap": true
+  }
+}

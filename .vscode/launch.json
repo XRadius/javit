@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "args": ["bin/javit"],
+      "name": "Launch Program",
+      "outFiles": ["${workspaceFolder}/dist/**/*"],
+      "outputCapture": "std",
+      "preLaunchTask": "TypeScript",
+      "request": "launch",
+      "type": "node"
+    }
+  ]
+}
