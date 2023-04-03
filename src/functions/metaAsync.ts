@@ -7,7 +7,9 @@ export async function metaAsync(name: string) {
   const response = await fetch(request);
   const responseText = await response.text();
   const $ = cheerio.load(responseText);
-  return run($, request);
+  return app.isSame(request.toString(), response.url)
+    ? listAsync(name, $, response.url)
+    : run($, response.url);
 }
 
 function create(name: string) {
@@ -16,12 +18,27 @@ function create(name: string) {
   return url;
 }
 
-function run($: cheerio.CheerioAPI, baseUrl: URL) {
+async function listAsync(name: string, $: cheerio.CheerioAPI, url: string) {
+  for (const anchor of $('.videothumblist a[href]')) {
+    const anchorHref = $(anchor).attr('href');
+    const anchorText = $(anchor).text();
+    if (anchorHref && anchorText.includes(name)) {
+      const request = new URL(anchorHref, url);
+      const response = await fetch(request);
+      const responseText = await response.text();
+      const $ = cheerio.load(responseText);
+      return run($, response.url);
+    }
+  }
+  return;
+}
+
+function run($: cheerio.CheerioAPI, url: string) {
   const previewText = $('#video_jacket_img').attr('src');
   const releaseText = $('#video_date .text').text().trim();
   const title = $('.post-title').text().trim();
   if (previewText && releaseText && title) {
-    const previewUrl = new URL(previewText, baseUrl);
+    const previewUrl = new URL(previewText, url);
     const releaseDate = DateTime.fromSQL(releaseText);
     return {previewUrl, releaseDate, title} as app.Metadata;
   } else {
