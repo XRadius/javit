@@ -15,6 +15,7 @@ export async function parseAsync(filePath: string) {
 }
 
 function match(fileName: string) {
-  const expression = /[A-Z]{3,}-[0-9]{3}/;
-  return fileName.match(expression)?.[0] ?? '';
+  const expression = /([A-Z]{2,})-?([0-9]{3})/i;
+  const match = fileName.match(expression);
+  return match ? `${match[1]?.toUpperCase()}-${match[2]}` : '';
 }

@@ -31,13 +31,9 @@ async function directoryAsync(directoryPath: string, options: app.Options) {
       await checkAsync(path, options);
     } else if (stats?.isFile() && app.isVideo(path)) {
       const imagePath = path.replace(/\.[^\.]+$/, '.jpg');
-      if (paths.has(imagePath)) {
-        if (!options.force) continue;
-        await fs.promises.unlink(imagePath);
-        await checkAsync(path, options);
-      } else {
-        await checkAsync(path, options);
-      }
+      if (!options.force && paths.has(imagePath)) continue;
+      await fs.promises.unlink(imagePath).catch(() => {});
+      await checkAsync(path, options);
     }
   }
 }
