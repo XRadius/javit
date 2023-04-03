@@ -21,5 +21,5 @@ export interface Options {
   /**
    * Determines whether to force a refresh.
    */
-  force?: true;
+  force?: boolean;
 }
