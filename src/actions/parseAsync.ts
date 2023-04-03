@@ -31,9 +31,14 @@ async function directoryAsync(directoryPath: string, options: app.Options) {
     if (stats?.isDirectory()) {
       await checkAsync(path, options);
     } else if (stats?.isFile() && app.isVideo(path)) {
-      const imagePath = path.replace(/\.[^\.]+$/, '.jpg');
-      if (!options.force && paths.has(imagePath)) continue;
-      await checkAsync(path, options);
+      const basePath = path.replace(/\.[^\.]+$/, '');
+      const fanartPath = `${basePath}-fanart.jpg`;
+      const posterPath = `${basePath}.jpg`;
+      if (options.force || !paths.has(fanartPath) || !paths.has(posterPath)) {
+        await fs.promises.unlink(fanartPath).catch(() => {});
+        await fs.promises.unlink(posterPath).catch(() => {});
+        await checkAsync(path, options);
+      }
     }
   }
 }
