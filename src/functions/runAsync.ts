@@ -1,7 +1,6 @@
 import * as app from '..';
 import * as path from 'node:path';
 import * as fs from 'node:fs';
-import {DateTime} from 'luxon';
 import {posterAsync} from './helpers/posterAsync';
 import sanitizeFilename from 'sanitize-filename';
 
@@ -12,7 +11,6 @@ export async function runAsync(filePath: string, value: app.Metadata) {
   const videoPath = path.join(dir, `${fileName}${ext}`);
   await fileAsync(filePath, videoPath);
   await imageAsync(imagePath, value.previewUrl);
-  await timeAsync(videoPath, value.releaseDate);
 }
 
 async function fileAsync(fromPath: string, toPath: string) {
@@ -29,9 +27,4 @@ async function imageAsync(filePath: string, value: URL) {
   await fs.promises.writeFile(`${filePath}.tmp`, poster);
   await fs.promises.rename(`${filePath}-fanart.tmp`, `${filePath}-fanart.jpg`);
   await fs.promises.rename(`${filePath}.tmp`, `${filePath}.jpg`);
-}
-
-async function timeAsync(filePath: string, value: DateTime) {
-  const time = value.toSeconds();
-  await fs.promises.utimes(filePath, time, time);
 }

@@ -1,15 +1,8 @@
-import {DateTime} from 'luxon';
-
 export interface Metadata {
   /**
    * The preview URL.
    */
   previewUrl: URL;
-
-  /**
-   * The release date.
-   */
-  releaseDate: DateTime;
 
   /**
    * The title.

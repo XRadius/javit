@@ -5,8 +5,7 @@ export async function parseAsync(filePath: string) {
   const name = run(path.basename(filePath));
   const value = name && (await app.metaAsync(name));
   if (value) {
-    if (!app.isSame(name, run(value.title))) throw new Error('Invalid title');
-    if (!value.releaseDate.isValid) throw new Error('Invalid release date');
+    if (!app.isSame(name, run(value.title))) throw new Error('ID');
     await app.runAsync(filePath, value);
     return true;
   } else {
