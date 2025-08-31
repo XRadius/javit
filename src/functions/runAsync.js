@@ -1,11 +1,15 @@
-import * as app from '..';
-import * as path from 'node:path';
-import * as fs from 'node:fs';
-import {posterAsync} from './helpers/posterAsync';
-import sanitizeFilename from 'sanitize-filename';
+import * as app from "../index.js";
+import * as path from "node:path";
+import * as fs from "node:fs";
+import { posterAsync } from "./helpers/posterAsync.js";
+import sanitizeFilename from "sanitize-filename";
 
-export async function runAsync(filePath: string, value: app.Metadata) {
-  const {dir, ext} = path.parse(filePath);
+/**
+ * @param {string} filePath
+ * @param {Metadata} value
+ */
+export async function runAsync(filePath, value) {
+  const { dir, ext } = path.parse(filePath);
   const fileName = sanitizeFilename(value.title).substring(0, 120).trim();
   const imagePath = path.join(dir, fileName);
   const videoPath = path.join(dir, `${fileName}${ext}`);
@@ -13,13 +17,21 @@ export async function runAsync(filePath: string, value: app.Metadata) {
   await imageAsync(imagePath, value.previewUrl);
 }
 
-async function fileAsync(fromPath: string, toPath: string) {
+/**
+ * @param {string} fromPath
+ * @param {string} toPath
+ */
+async function fileAsync(fromPath, toPath) {
   if (app.isSame(fromPath, toPath)) return;
-  if (await fs.promises.stat(toPath).catch(() => {})) throw new Error('Exists');
+  if (await fs.promises.stat(toPath).catch(() => {})) throw new Error("Exists");
   await fs.promises.rename(fromPath, toPath);
 }
 
-async function imageAsync(filePath: string, value: URL) {
+/**
+ * @param {string} filePath
+ * @param {URL} value
+ */
+async function imageAsync(filePath, value) {
   const response = await fetch(value);
   const fanart = await response.arrayBuffer().then(Buffer.from);
   const poster = await posterAsync(fanart);

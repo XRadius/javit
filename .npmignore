@@ -1,2 +1,5 @@
-/src
-/*.*
+.github/
+.vscode/
+.prettierrc
+Dockerfile
+jsconfig.*

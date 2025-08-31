@@ -1,7 +1,3 @@
 {
-  "arrowParens": "avoid",
-  "bracketSameLine": true,
-  "bracketSpacing": false,
-  "trailingComma": "none",
-  "singleQuote": true
+  "plugins": ["prettier-plugin-jsdoc"]
 }

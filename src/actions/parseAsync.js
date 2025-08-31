@@ -1,15 +1,23 @@
-import * as app from '..';
-import * as fs from 'node:fs';
-import * as path from 'node:path';
-import {traceAsync} from './helpers/traceAsync';
+import * as app from "../index.js";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { traceAsync } from "./helpers/traceAsync.js";
 
-export async function parseAsync(paths: Array<string>, options: app.Options) {
+/**
+ * @param {string[]} paths
+ * @param {Options} options
+ */
+export async function parseAsync(paths, options) {
   for (const path of paths) {
     await checkAsync(path, options);
   }
 }
 
-async function checkAsync(path: string, options: app.Options) {
+/**
+ * @param {string} path
+ * @param {Options} options
+ */
+async function checkAsync(path, options) {
   const stats = await fs.promises.stat(path).catch(() => {});
   if (!stats) {
     console.log(`Rejected ${path}`);
@@ -23,15 +31,19 @@ async function checkAsync(path: string, options: app.Options) {
   }
 }
 
-async function directoryAsync(directoryPath: string, options: app.Options) {
+/**
+ * @param {string} directoryPath
+ * @param {Options} options
+ */
+async function directoryAsync(directoryPath, options) {
   const names = await fs.promises.readdir(directoryPath).catch(() => []);
-  const paths = new Set(names.map(x => path.join(directoryPath, x)));
+  const paths = new Set(names.map((x) => path.join(directoryPath, x)));
   for (const path of paths) {
     const stats = await fs.promises.stat(path).catch(() => {});
     if (stats?.isDirectory()) {
       await checkAsync(path, options);
     } else if (stats?.isFile() && app.isVideo(path)) {
-      const basePath = path.replace(/\.[^\.]+$/, '');
+      const basePath = path.replace(/\.[^\.]+$/, "");
       const fanartPath = `${basePath}-fanart.jpg`;
       const posterPath = `${basePath}.jpg`;
       if (options.force || !paths.has(fanartPath) || !paths.has(posterPath)) {

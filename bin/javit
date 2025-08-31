@@ -1,4 +1,0 @@
-#!/usr/bin/env node
-const {join} = require('path');
-const {main} = require(join(__dirname, '..'));
-main().parse();
