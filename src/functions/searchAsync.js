@@ -4,7 +4,7 @@ import { tryBestJavPorn } from "./providers/bestjavporn.js";
 /** @param {string} name */
 export async function searchAsync(name) {
   for (const providerAsync of [try7mmtv, tryBestJavPorn]) {
-    const metadata = await providerAsync(name);
+    const metadata = await providerAsync(name).catch(() => undefined);
     const hasMatch = metadata ? isAcceptableTitle(metadata.title) : false;
     if (hasMatch) return metadata;
   }
