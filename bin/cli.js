@@ -10,9 +10,9 @@ new commander.Command("javit")
 
 function createParse() {
   return new commander.Command("parse")
-    .arguments("<path...>")
-    .description("Parse metadata")
-    .option("--force", "Determines whether to force a refresh")
+    .arguments("<paths...>")
+    .description("Parses metadata")
+    .option("--force", "Forces metadata refresh")
     .action(parseAsync);
 }
 

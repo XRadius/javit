@@ -1,7 +1,6 @@
 import * as javit from "../index.js";
 import fs from "node:fs";
 import path from "node:path";
-import { traceAsync } from "./utils/traceAsync.js";
 
 /**
  * @param {string[]} paths
@@ -26,8 +25,15 @@ async function checkAsync(path, force) {
     await directoryAsync(path, force);
     console.log(`Finished ${path}`);
   } else if (stats.isFile() && isVideo(path)) {
-    console.log(`Fetching ${path}`);
-    await traceAsync(path, javit.parseAsync(path));
+    try {
+      console.log(`Fetching ${path}`);
+      const result = await javit.parseAsync(path);
+      const status = result ? "OK" : "Not Found";
+      console.log(`Finished ${path} (${status})`);
+    } catch (err) {
+      const status = err instanceof Error ? err.stack : err;
+      console.log(`Rejected ${path}: ${status}`);
+    }
   }
 }
 
