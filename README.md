@@ -1,71 +1,79 @@
 # javit
 
-Matches _JAV_ videos and normalizes metadata. Extracts _JAV_-identifiers from file names, looks up associated metadata on a popular _JAV_-metadata website, then renames your file(s) and downloads a _poster_ and _fanart_ preview image. Compatible with _Plex Media Server_.
+A CLI tool that fetches metadata for JAV videos, **renames your local files** to match the online titles, and **downloads high-quality images** to make your collection look polished and professional. While this is especially useful for [Plex](https://www.plex.tv/) (where local artwork is required for proper display in "Other Videos" libraries), the output is compatible with any media manager that supports local metadata.
 
-# Prerequisites
+## Quick Start
 
-- NodeJS >= 18 (http://nodejs.org/)
-- NPM >= 8 (https://www.npmjs.org/)
+Run with **npm (using npx)**:
 
-# Install
-
-1. Install _nodejs_ following the instructions at http://nodejs.org/
-2. Run in _Terminal_: `npm install -g javit`
-
-# Usage
-
+```bash
+npx javit parse /path/to/file-or-directory
 ```
+
+## Installation
+
+The _Quick Start_ command is for one-off runs to quickly try the tool, while the options below are intended for regular use. You can install the CLI globally with **npm**, or clone **from source** if you want full control or plan to contribute.
+
+### npm
+
+Install globally with **npm**:
+
+```bash
+npm install -g javit
+```
+
+Then run:
+
+```bash
+javit parse /path/to/file-or-directory
+```
+
+### From Source
+
+Install from source with **git** and **npm**:
+
+```bash
+git clone https://github.com/XRadius/javit
+cd javit
+npm install
+```
+
+Then run with **node**:
+
+```bash
+node bin/cli.js parse /path/to/file-or-directory
+```
+
+## Usage
+
+```bash
 Usage: javit [options] [command]
 
-Matches JAV videos and normalizes metadata.
-
 Options:
-  -V, --version              output the version number
-  -h, --help                 display help for command
+  -h, --help                  display help for command
 
 Commands:
-  parse [options] <path...>  Parse metadata
-  search <name>              Search metadata
-  help [command]             display help for command
+  parse [options] <paths...>  Parses metadata
+  search <names...>           Searches metadata
+  help [command]              display help for command
 ```
 
-## Search
+### Parse
 
-Searches metadata and outputs metadata in `JSON` format.
+Fetches metadata, **renames your local files** and **downloads high-quality images**:
 
-### Examples
+```bash
+javit parse /path/to/file-or-directory
+```
 
-A) Search for `MIRD-163`:
+### Search
 
-    javit search MIRD-163
+Searches metadata and outputs metadata in `JSON`:
 
-B) Search for `SW-600`:
+```bash
+javit search MIRD-163
+```
 
-    javit search SW-600
+## Contributions
 
-## Parse
-
-Parse renames your file(s) and downloads preview images.
-
-### Examples
-
-A) Rename a `mkv` video and download metadata:
-
-    javit parse /path/to/your/SW-600.HD.mkv
-
-B) Recursively scans for video files, then renames and downloads metadata:
-
-    javit parse /path/to/your/library/directory
-
-# Contributions
-
-While software contributions are welcome, you can also help with:
-
-- Documentation
-- Helping other people
-- Feature requests
-- Bug reports
-
-# Questions?
-
-Please make an issue if you have questions, wish to request a feature, etc.
+Pull requests are welcome! Please open an issue first to discuss major changes.
