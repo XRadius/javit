@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-import * as app from "../src/index.js";
 import * as commander from "commander";
+import { parseAsync } from "../src/actions/parseAsync.js";
+import { searchAsync } from "../src/actions/searchAsync.js";
 
 new commander.Command("javit")
   .addCommand(createParse())
@@ -12,12 +13,12 @@ function createParse() {
     .arguments("<path...>")
     .description("Parse metadata")
     .option("--force", "Determines whether to force a refresh")
-    .action(app.actions.parseAsync);
+    .action(parseAsync);
 }
 
 function createSearch() {
   return new commander.Command("search")
     .arguments("<name>")
     .description("Search metadata")
-    .action(app.actions.searchAsync);
+    .action(searchAsync);
 }

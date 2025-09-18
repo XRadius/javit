@@ -1,56 +1,62 @@
-import * as app from "../index.js";
-import * as fs from "node:fs";
-import * as path from "node:path";
-import { traceAsync } from "./helpers/traceAsync.js";
+import * as javit from "../index.js";
+import fs from "node:fs";
+import path from "node:path";
+import { traceAsync } from "./utils/traceAsync.js";
 
 /**
  * @param {string[]} paths
- * @param {Options} options
+ * @param {{ force?: boolean }} options
  */
 export async function parseAsync(paths, options) {
   for (const path of paths) {
-    await checkAsync(path, options);
+    await checkAsync(path, Boolean(options.force));
   }
 }
 
 /**
  * @param {string} path
- * @param {Options} options
+ * @param {boolean} force
  */
-async function checkAsync(path, options) {
-  const stats = await fs.promises.stat(path).catch(() => {});
+async function checkAsync(path, force) {
+  const stats = await fs.promises.stat(path).catch(() => undefined);
   if (!stats) {
     console.log(`Rejected ${path}`);
   } else if (stats.isDirectory()) {
     console.log(`Checking ${path}`);
-    await directoryAsync(path, options);
+    await directoryAsync(path, force);
     console.log(`Finished ${path}`);
-  } else if (stats.isFile() && app.isVideo(path)) {
+  } else if (stats.isFile() && isVideo(path)) {
     console.log(`Fetching ${path}`);
-    await traceAsync(path, app.parseAsync(path));
+    await traceAsync(path, javit.parseAsync(path));
   }
 }
 
 /**
  * @param {string} directoryPath
- * @param {Options} options
+ * @param {boolean} force
  */
-async function directoryAsync(directoryPath, options) {
-  const names = await fs.promises.readdir(directoryPath).catch(() => []);
-  const paths = new Set(names.map((x) => path.join(directoryPath, x)));
-  for (const path of paths) {
-    const stats = await fs.promises.stat(path).catch(() => {});
+async function directoryAsync(directoryPath, force) {
+  const childNames = await fs.promises.readdir(directoryPath).catch(() => []);
+  const childPaths = childNames.map((name) => path.join(directoryPath, name));
+  const childSet = new Set(childPaths);
+  for (const childPath of childPaths) {
+    const stats = await fs.promises.stat(childPath).catch(() => undefined);
     if (stats?.isDirectory()) {
-      await checkAsync(path, options);
-    } else if (stats?.isFile() && app.isVideo(path)) {
-      const basePath = path.replace(/\.[^\.]+$/, "");
-      const fanartPath = `${basePath}-fanart.jpg`;
-      const posterPath = `${basePath}.jpg`;
-      if (options.force || !paths.has(fanartPath) || !paths.has(posterPath)) {
-        await fs.promises.unlink(fanartPath).catch(() => {});
-        await fs.promises.unlink(posterPath).catch(() => {});
-        await checkAsync(path, options);
+      await checkAsync(childPath, force);
+    } else if (stats?.isFile() && isVideo(childPath)) {
+      const { dir, name } = path.parse(childPath);
+      const fanartPath = path.join(dir, `${name}-fanart.jpg`);
+      const posterPath = path.join(dir, `${name}.jpg`);
+      if (force || !childSet.has(fanartPath) || !childSet.has(posterPath)) {
+        await fs.promises.unlink(fanartPath).catch(() => undefined);
+        await fs.promises.unlink(posterPath).catch(() => undefined);
+        await checkAsync(childPath, force);
       }
     }
   }
+}
+
+/** @param {string} filePath */
+function isVideo(filePath) {
+  return /\.(avi|mp4|mkv|ogm|webm)$/i.test(filePath);
 }
