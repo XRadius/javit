@@ -1,6 +1,6 @@
 # javit
 
-A CLI tool that fetches metadata for JAV videos, **renames your local files** to match the online titles, and **downloads high-quality images** to make your collection look polished and professional. While this is especially useful for [Plex](https://www.plex.tv/) (where local artwork is required for proper display in "Other Videos" libraries), the output is compatible with any media manager that supports local metadata.
+A CLI tool that fetches metadata for JAV videos, **renames your local files** to match online titles, and **downloads high-quality images** to make your collection look polished and professional. While this is especially useful for [Plex](https://www.plex.tv/), which requires local artwork for proper display in "Other Videos" library types, the output is compatible with any media manager that supports local metadata.
 
 ## Quick Start
 
@@ -44,9 +44,9 @@ Then run with **node**:
 node bin/cli.js parse /path/to/file-or-directory
 ```
 
-## Usage
+## Examples
 
-```bash
+```
 Usage: javit [options] [command]
 
 Options:
@@ -54,7 +54,7 @@ Options:
 
 Commands:
   parse [options] <paths...>  Parses metadata
-  search <names...>           Searches metadata
+  search <name>               Search metadata
   help [command]              display help for command
 ```
 
