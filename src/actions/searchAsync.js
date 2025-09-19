@@ -2,7 +2,7 @@ import * as javit from "../index.js";
 
 /** @param {string} name */
 export async function searchAsync(name) {
-  const metadata = await javit.searchAsync(name);
-  const result = JSON.stringify(metadata, undefined, 2);
-  console.log(result);
+  const code = javit.getCode(name);
+  const metadata = code ? await javit.searchAsync(code) : undefined;
+  console.log(JSON.stringify(metadata, undefined, 2));
 }

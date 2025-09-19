@@ -1,12 +1,13 @@
 import * as cheerio from "cheerio";
 import { Metadata } from "../Metadata.js";
+import { getCode } from "../getCode.js";
 
-/** @param {string} name */
-export async function try7mmtv(name) {
-  const response = await getAsync(name);
+/** @param {string} code */
+export async function try7mmtv(code) {
+  const response = await getAsync(code);
   const responseText = await response.text();
   const $ = cheerio.load(responseText);
-  return await searchAsync($, name, response.url);
+  return await searchAsync($, code, response.url);
 }
 
 /** @param {string} name */
@@ -21,14 +22,14 @@ async function getAsync(name) {
 
 /**
  * @param {cheerio.CheerioAPI} $
- * @param {string} name
+ * @param {string} code
  * @param {string} url
  */
-async function searchAsync($, name, url) {
+async function searchAsync($, code, url) {
   for (const anchor of $(".video-title a[href]")) {
     const anchorHref = $(anchor).attr("href");
     const anchorText = $(anchor).text();
-    if (anchorHref && anchorText.includes(name)) {
+    if (anchorHref && getCode(anchorText) === code) {
       const response = await fetch(new URL(anchorHref, url));
       const responseText = await response.text();
       const $ = cheerio.load(responseText);

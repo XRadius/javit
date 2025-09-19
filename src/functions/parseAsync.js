@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import sanitizeFilename from "sanitize-filename";
-import { getCode } from "./utils/getCode.js";
+import { getCode } from "./getCode.js";
 import { posterAsync } from "./utils/posterAsync.js";
 import { searchAsync } from "./searchAsync.js";
 
@@ -10,11 +10,7 @@ export async function parseAsync(filePath) {
   const { dir, ext, name } = path.parse(filePath);
   const code = getCode(name);
   const metadata = code ? await searchAsync(code) : undefined;
-  if (!metadata) {
-    return "Not Found";
-  } else if (getCode(metadata.title) !== code) {
-    return "Code Mismatch";
-  } else {
+  if (metadata) {
     const newName = sanitizeFilename(metadata.title).slice(0, 120).trim();
     const newPath = path.join(dir, newName + ext);
     const didFail = await renameAsync(filePath, newPath);
@@ -24,6 +20,8 @@ export async function parseAsync(filePath) {
     } else {
       return "Duplicate";
     }
+  } else {
+    return "Not Found";
   }
 }
 
