@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import sanitizeFilename from "sanitize-filename";
 import { getCode } from "./getCode.js";
-import { posterAsync } from "./utils/posterAsync.js";
+import { getPosterAsync } from "./utils/getPosterAsync.js";
 import { searchAsync } from "./searchAsync.js";
 
 /** @param {string} filePath */
@@ -33,7 +33,7 @@ export async function parseAsync(filePath) {
 async function downloadAsync(dir, name, previewUrl) {
   const response = await fetch(previewUrl);
   const fanart = await response.arrayBuffer().then(Buffer.from);
-  const poster = await posterAsync(fanart);
+  const poster = await getPosterAsync(fanart);
   await fs.promises.writeFile(path.join(dir, `${name}-fanart.jpg`), fanart);
   await fs.promises.writeFile(path.join(dir, `${name}.jpg`), poster);
 }

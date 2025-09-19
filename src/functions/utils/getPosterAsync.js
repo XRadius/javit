@@ -1,7 +1,7 @@
 import sharp from "sharp";
 
 /** @param {Buffer} buffer */
-export async function posterAsync(buffer) {
+export async function getPosterAsync(buffer) {
   const image = sharp(buffer);
   const imageData = await image.metadata();
   const height = imageData.height;
