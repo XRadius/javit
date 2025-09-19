@@ -1,10 +1,12 @@
 export class Metadata {
   /**
-   * @param {URL} previewUrl
+   * @param {URL} imageUrl
    * @param {string} title
+   * @param {URL} url
    */
-  constructor(previewUrl, title) {
-    this.previewUrl = previewUrl;
+  constructor(imageUrl, title, url) {
+    this.imageUrl = imageUrl;
     this.title = title;
+    this.url = url;
   }
 }

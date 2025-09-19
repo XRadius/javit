@@ -15,7 +15,7 @@ export async function parseAsync(filePath) {
     const newPath = path.join(dir, newName + ext);
     const didFail = await renameAsync(filePath, newPath);
     if (!didFail) {
-      await downloadAsync(dir, newName, metadata.previewUrl);
+      await downloadAsync(dir, metadata.imageUrl, newName);
       return "OK";
     } else {
       return "Duplicate";
@@ -27,11 +27,11 @@ export async function parseAsync(filePath) {
 
 /**
  * @param {string} dir
+ * @param {URL} imageUrl
  * @param {string} name
- * @param {URL} previewUrl
  */
-async function downloadAsync(dir, name, previewUrl) {
-  const response = await fetch(previewUrl);
+async function downloadAsync(dir, imageUrl, name) {
+  const response = await fetch(imageUrl);
   const fanart = await response.arrayBuffer().then(Buffer.from);
   const poster = await getPosterAsync(fanart);
   await fs.promises.writeFile(path.join(dir, `${name}-fanart.jpg`), fanart);
