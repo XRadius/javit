@@ -25,15 +25,9 @@ async function checkAsync(path, force) {
     await directoryAsync(path, force);
     console.log(`Finished ${path}`);
   } else if (stats.isFile() && isVideo(path)) {
-    try {
-      console.log(`Fetching ${path}`);
-      const result = await javit.parseAsync(path);
-      const status = result ? "OK" : "Not Found";
-      console.log(`Finished ${path} (${status})`);
-    } catch (err) {
-      const status = err instanceof Error ? err.stack : err;
-      console.log(`Rejected ${path}: ${status}`);
-    }
+    console.log(`Fetching ${path}`);
+    const status = await javit.parseAsync(path);
+    console.log(`Finished ${path} (${status})`);
   }
 }
 

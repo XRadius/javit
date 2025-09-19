@@ -7,18 +7,23 @@ import { searchAsync } from "./searchAsync.js";
 
 /** @param {string} filePath */
 export async function parseAsync(filePath) {
-  const { dir, name, ext } = path.parse(filePath);
+  const { dir, ext, name } = path.parse(filePath);
   const code = getCode(name);
   const metadata = code ? await searchAsync(code) : undefined;
-  if (metadata) {
-    if (getCode(metadata.title) !== code) throw new Error("Mismatch");
+  if (!metadata) {
+    return "Not Found";
+  } else if (getCode(metadata.title) !== code) {
+    return "Code Mismatch";
+  } else {
     const newName = sanitizeFilename(metadata.title).slice(0, 120).trim();
     const newPath = path.join(dir, newName + ext);
-    await organizeAsync(filePath, newPath);
-    await downloadAsync(dir, newName, metadata.previewUrl);
-    return true;
-  } else {
-    return false;
+    const didFail = await renameAsync(filePath, newPath);
+    if (!didFail) {
+      await downloadAsync(dir, newName, metadata.previewUrl);
+      return "OK";
+    } else {
+      return "Duplicate";
+    }
   }
 }
 
@@ -39,15 +44,17 @@ async function downloadAsync(dir, name, previewUrl) {
  * @param {string} oldPath
  * @param {string} newPath
  */
-async function organizeAsync(oldPath, newPath) {
+async function renameAsync(oldPath, newPath) {
   if (oldPath.localeCompare(newPath, undefined, { sensitivity: "accent" })) {
-    const existingStats = await fs.promises
+    const exists = await fs.promises
       .stat(newPath)
-      .catch(() => undefined);
-    if (existingStats) {
-      throw new Error("Duplicate");
+      .then(() => true)
+      .catch(() => false);
+    if (exists) {
+      return true;
     } else {
       await fs.promises.rename(oldPath, newPath);
     }
   }
+  return false;
 }
