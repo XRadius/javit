@@ -44,7 +44,7 @@ function videoAsync($, url) {
   const rawTitle = $(".video-description").first().text().trim();
   if (rawPreview && rawTitle) {
     const previewUrl = new URL(rawPreview, url);
-    const title = rawTitle.replace(/\[[^\]]+\]/g, "").replace(/\s+/, " ");
+    const title = rawTitle.replace(/\[[^\]]+\]/g, "").replace(/\s+/g, " ");
     return new Metadata(previewUrl, title);
   } else {
     return undefined;
