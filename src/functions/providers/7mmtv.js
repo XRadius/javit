@@ -16,7 +16,7 @@ async function getAsync(name) {
   const body = new FormData();
   const url = "https://7mmtv.sx/en/searchform_search/all/index.html";
   body.append("search_keyword", name);
-  body.append("search_type", "censored");
+  body.append("search_type", "searchall");
   body.append("op", "search");
   return await fetch(url, { body, method: "POST" });
 }
