@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import { Metadata } from "../Metadata.js";
 import { getCode } from "../getCode.js";
+import { normalizeTitle } from "./utils/normalizeTitle.js";
 
 /** @param {string} code */
 export async function tryBestJavPorn(code) {
@@ -41,13 +42,7 @@ async function searchAsync($, code, url) {
  * @param {string} url
  */
 function videoAsync($, url) {
-  const rawPreview = $('meta[itemprop="thumbnailUrl"]').first().attr("content");
-  const rawTitle = $(".video-description").first().text().trim();
-  if (rawPreview && rawTitle) {
-    const previewUrl = new URL(rawPreview, url);
-    const title = rawTitle.replace(/\[[^\]]+\]/g, "").replace(/\s+/g, " ");
-    return new Metadata(previewUrl, title);
-  } else {
-    return undefined;
-  }
+  const src = $('meta[itemprop="thumbnailUrl"]').first().attr("content");
+  const title = normalizeTitle($(".video-description").first().text());
+  return src && title ? new Metadata(new URL(src, url), title) : undefined;
 }
