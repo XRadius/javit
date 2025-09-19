@@ -42,7 +42,9 @@ async function searchAsync($, code, url) {
  * @param {string} url
  */
 function videoAsync($, url) {
-  const src = $('meta[itemprop="thumbnailUrl"]').first().attr("content");
-  const title = normalizeTitle($(".video-description").first().text());
-  return src && title ? new Metadata(new URL(src, url), title) : undefined;
+  const imageContent = $('meta[property="og:image"]').first().attr("content");
+  const image = imageContent ? new URL(imageContent, url) : undefined;
+  const titleContent = $('meta[property="og:title"]').first().attr("content");
+  const title = titleContent ? normalizeTitle(titleContent) : undefined;
+  return image && title ? new Metadata(image, title) : undefined;
 }
