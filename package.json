@@ -22,7 +22,7 @@
     "npm": ">= 10.0.0"
   },
   "scripts": {
-    "prepack": "tsc index.js --allowJs --declaration --emitDeclarationOnly",
+    "prepack": "tsc index.js --allowJs --declaration --emitDeclarationOnly --removeComments --strict",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
     "test": "npm run prettier:check && npm run tsc:build && node --test",
