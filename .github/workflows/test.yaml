@@ -10,11 +10,11 @@ jobs:
       - run: npm ci
       - run: npm test
 on:
+  schedule:
+    - cron: 15 3 * * 0
   pull_request:
     branches:
       - master
   push:
     branches:
       - master
-  schedule:
-    - cron: 15 3 * * 0
