@@ -2,4 +2,5 @@
 .prettierrc
 .vscode/
 *.test.js
+eslint.*
 jsconfig.*
