@@ -5,11 +5,11 @@ import { tryJavMost } from "./providers/javmost.js";
 /** @param {string} code */
 export async function searchAsync(code) {
   for (const providerAsync of [try7mmtv, tryBestJavPorn, tryJavMost]) {
-    const metadata = await providerAsync(code).catch(() => undefined);
+    const metadata = await providerAsync(code).catch(() => {});
     const hasMatch = metadata ? isAcceptableTitle(metadata.title) : false;
     if (hasMatch) return metadata;
   }
-  return undefined;
+  return;
 }
 
 /** @param {string} title */

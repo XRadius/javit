@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
-import { Metadata } from "../Metadata.js";
+
 import { getCode } from "../getCode.js";
+import { Metadata } from "../Metadata.js";
 import { normalizeTitle } from "./utils/normalizeTitle.js";
 
 /** @param {string} code */
@@ -37,7 +38,7 @@ async function searchAsync($, code, url) {
       return videoAsync($, new URL(response.url));
     }
   }
-  return undefined;
+  return;
 }
 
 /**

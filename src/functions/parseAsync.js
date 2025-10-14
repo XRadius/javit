@@ -1,9 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import sanitizeFilename from "sanitize-filename";
+
 import { getCode } from "./getCode.js";
-import { getPosterAsync } from "./utils/getPosterAsync.js";
 import { searchAsync } from "./searchAsync.js";
+import { getPosterAsync } from "./utils/getPosterAsync.js";
 
 /** @param {string} filePath */
 export async function parseAsync(filePath) {
@@ -13,8 +14,7 @@ export async function parseAsync(filePath) {
   if (metadata) {
     const newName = sanitizeFilename(metadata.title).slice(0, 120).trim();
     const newPath = path.join(dir, newName + ext);
-    const didFail = await renameAsync(filePath, newPath);
-    if (!didFail) {
+    if (await renameAsync(filePath, newPath)) {
       await downloadAsync(dir, metadata.imageUrl, newName);
       return "OK";
     } else {
@@ -26,16 +26,16 @@ export async function parseAsync(filePath) {
 }
 
 /**
- * @param {string} dir
+ * @param {string} directoryPath
  * @param {URL} imageUrl
  * @param {string} name
  */
-async function downloadAsync(dir, imageUrl, name) {
+async function downloadAsync(directoryPath, imageUrl, name) {
   const response = await fetch(imageUrl);
-  const fanart = await response.arrayBuffer().then(Buffer.from);
+  const fanart = await response.arrayBuffer().then(Buffer.from.bind(Buffer));
   const poster = await getPosterAsync(fanart);
-  await fs.promises.writeFile(path.join(dir, `${name}-fanart.jpg`), fanart);
-  await fs.promises.writeFile(path.join(dir, `${name}.jpg`), poster);
+  await writeImageAsync(path.join(directoryPath, `${name}-fanart.jpg`), fanart);
+  await writeImageAsync(path.join(directoryPath, `${name}.jpg`), poster);
 }
 
 /**
@@ -49,10 +49,19 @@ async function renameAsync(oldPath, newPath) {
       .then(() => true)
       .catch(() => false);
     if (exists) {
-      return true;
+      return false;
     } else {
       await fs.promises.rename(oldPath, newPath);
     }
   }
-  return false;
+  return true;
+}
+
+/**
+ * @param {string} filePath
+ * @param {Buffer} buffer
+ */
+async function writeImageAsync(filePath, buffer) {
+  await fs.promises.writeFile(`${filePath}.tmp`, buffer);
+  await fs.promises.rename(`${filePath}.tmp`, filePath);
 }

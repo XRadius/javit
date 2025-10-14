@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import * as commander from "commander";
+
 import { parseAsync } from "../src/actions/parseAsync.js";
 import { searchAsync } from "../src/actions/searchAsync.js";
 

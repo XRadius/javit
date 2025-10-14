@@ -8,5 +8,5 @@ export async function getPosterAsync(buffer) {
   const width = imageData.width * 0.475;
   const left = imageData.width - width;
   const top = 0;
-  return await image.extract({ height, width, left, top }).jpeg().toBuffer();
+  return await image.extract({ height, left, top, width }).jpeg().toBuffer();
 }

@@ -1,6 +1,7 @@
-import * as javit from "../index.js";
 import fs from "node:fs";
 import path from "node:path";
+
+import * as javit from "../index.js";
 
 /**
  * @param {string[]} paths
@@ -17,7 +18,7 @@ export async function parseAsync(paths, options) {
  * @param {boolean} force
  */
 async function checkAsync(path, force) {
-  const stats = await fs.promises.stat(path).catch(() => undefined);
+  const stats = await fs.promises.stat(path).catch(() => {});
   if (!stats) {
     console.log(`Rejected ${path}`);
   } else if (stats.isDirectory()) {
@@ -40,7 +41,7 @@ async function directoryAsync(directoryPath, force) {
   const childPaths = childNames.map((name) => path.join(directoryPath, name));
   const childSet = new Set(childPaths);
   for (const childPath of childPaths) {
-    const stats = await fs.promises.stat(childPath).catch(() => undefined);
+    const stats = await fs.promises.stat(childPath).catch(() => {});
     if (stats?.isDirectory()) {
       await checkAsync(childPath, force);
     } else if (stats?.isFile() && isVideo(childPath)) {
@@ -48,8 +49,8 @@ async function directoryAsync(directoryPath, force) {
       const fanartPath = path.join(dir, `${name}-fanart.jpg`);
       const posterPath = path.join(dir, `${name}.jpg`);
       if (force || !childSet.has(fanartPath) || !childSet.has(posterPath)) {
-        await fs.promises.unlink(fanartPath).catch(() => undefined);
-        await fs.promises.unlink(posterPath).catch(() => undefined);
+        await fs.promises.unlink(fanartPath).catch(() => {});
+        await fs.promises.unlink(posterPath).catch(() => {});
         await checkAsync(childPath, force);
       }
     }
