@@ -32,7 +32,7 @@ async function searchAsync($, code, url) {
       const response = await fetch(new URL(anchorHref, url));
       const responseText = await response.text();
       const $ = cheerio.load(responseText);
-      return videoAsync($, new URL(response.url));
+      return videoAsync($, code, new URL(response.url));
     }
   }
   return;
@@ -40,12 +40,13 @@ async function searchAsync($, code, url) {
 
 /**
  * @param {cheerio.CheerioAPI} $
+ * @param {string} code
  * @param {URL} url
  */
-function videoAsync($, url) {
+function videoAsync($, code, url) {
   const imageContent = $('meta[property="og:image"]').first().attr("content");
   const imageUrl = imageContent ? new URL(imageContent, url) : undefined;
   const titleContent = $("h2.card-title").first().text();
-  const title = titleContent ? normalizeTitle(titleContent) : undefined;
+  const title = titleContent ? normalizeTitle(code, titleContent) : undefined;
   return imageUrl && title ? new Metadata(imageUrl, title, url) : undefined;
 }
