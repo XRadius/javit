@@ -1,10 +1,12 @@
 import { try7mmtv } from "./providers/7mmtv.js";
 import { tryBestJavPorn } from "./providers/bestjavporn.js";
+import { tryJavDatabase } from "./providers/javdatabase.js";
 import { tryJavMost } from "./providers/javmost.js";
+const providers = [try7mmtv, tryBestJavPorn, tryJavDatabase, tryJavMost];
 
 /** @param {string} code */
 export async function searchAsync(code) {
-  for (const providerAsync of [try7mmtv, tryBestJavPorn, tryJavMost]) {
+  for (const providerAsync of providers) {
     const metadata = await providerAsync(code).catch(() => {});
     const hasMatch = metadata ? isAcceptableTitle(metadata.title) : false;
     if (hasMatch) return metadata;
