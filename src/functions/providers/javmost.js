@@ -12,9 +12,9 @@ export async function tryJavMost(code) {
   return await searchAsync($, code, response.url);
 }
 
-/** @param {string} name */
-async function getAsync(name) {
-  const search = encodeURIComponent(name);
+/** @param {string} code */
+async function getAsync(code) {
+  const search = encodeURIComponent(code);
   const url = new URL(`https://www.javmost.com/search/${search}/`);
   return await fetch(url);
 }

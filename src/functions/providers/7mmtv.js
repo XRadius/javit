@@ -12,11 +12,11 @@ export async function try7mmtv(code) {
   return await searchAsync($, code, response.url);
 }
 
-/** @param {string} name */
-async function getAsync(name) {
+/** @param {string} code */
+async function getAsync(code) {
   const body = new FormData();
   const url = "https://7mmtv.sx/en/searchform_search/all/index.html";
-  body.append("search_keyword", name);
+  body.append("search_keyword", code);
   body.append("search_type", "searchall");
   body.append("op", "search");
   return await fetch(url, { body, method: "POST" });

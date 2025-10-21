@@ -12,11 +12,11 @@ export async function tryJavDatabase(code) {
   return await searchAsync($, code, response.url);
 }
 
-/** @param {string} name */
-async function getAsync(name) {
+/** @param {string} code */
+async function getAsync(code) {
   const url = new URL("https://www.javdatabase.com/");
   url.searchParams.append("post_type", "movies,uncensored");
-  url.searchParams.append("s", name);
+  url.searchParams.append("s", code);
   return await fetch(url);
 }
 
