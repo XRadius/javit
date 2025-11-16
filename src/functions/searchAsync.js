@@ -1,8 +1,7 @@
 import { try7mmtv } from "./providers/7mmtv.js";
-import { tryBestJavPorn } from "./providers/bestjavporn.js";
 import { tryJavDatabase } from "./providers/javdatabase.js";
 import { tryJavMost } from "./providers/javmost.js";
-const providers = [try7mmtv, tryBestJavPorn, tryJavDatabase, tryJavMost];
+const providers = [try7mmtv, tryJavDatabase, tryJavMost];
 
 /** @param {string} code */
 export async function searchAsync(code) {
