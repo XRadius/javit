@@ -1,4 +1,11 @@
 export class Metadata {
+  /** @readonly @type {URL} */
+  imageUrl;
+  /** @readonly @type {string} */
+  title;
+  /** @readonly @type {URL} */
+  url;
+
   /**
    * @param {URL} imageUrl
    * @param {string} title
