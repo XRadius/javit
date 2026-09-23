@@ -44,23 +44,21 @@ Then run with **node**:
 node bin/cli.js parse /path/to/file-or-directory
 ```
 
-## Examples
+## Usage
 
-```
-Usage: javit [options] [command]
-
-Options:
-  -h, --help                  display help for command
-
-Commands:
-  parse [options] <paths...>  Parses metadata
-  search <name>               Search metadata
-  help [command]              display help for command
+```bash
+javit <parse|search>
 ```
 
 ### Parse
 
 Fetches metadata, **renames your local files** and **downloads high-quality images**:
+
+```bash
+javit parse [--force] <paths...>
+```
+
+Example:
 
 ```bash
 javit parse /path/to/file-or-directory
@@ -69,6 +67,12 @@ javit parse /path/to/file-or-directory
 ### Search
 
 Searches metadata and outputs metadata in `JSON`:
+
+```bash
+javit search <name>
+```
+
+Example:
 
 ```bash
 javit search MIRD-163
