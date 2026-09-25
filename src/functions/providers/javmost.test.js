@@ -5,8 +5,8 @@ import { tryJavMost } from "./javmost.js";
 
 const target = {
   code: "MIRD-163",
-  imagePath: "/file_image/MIRD-163-UNCENSORED-LEAK.jpg",
-  title: "MIRD-163 King To Live With Endless Obedient Maid 10 People",
+  imagePath: "/images/480/MIRD-163-UNCENSORED-LEAK.webp",
+  title: "MIRD-163 -UNCENSORED-EDIT",
 };
 
 await test("javmost", async () => {

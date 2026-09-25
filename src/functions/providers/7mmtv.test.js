@@ -6,7 +6,7 @@ import { try7mmtv } from "./7mmtv.js";
 const target = {
   code: "MIRD-163",
   imagePath: "/censored/b/135637_MIRD-163.jpg",
-  title: "MIRD-163 The Prince And His 10 Eternally Submissive Maids",
+  title: "MIRD-163 A king who lives with ten infinitely obedient maids",
 };
 
 await test("7mmtv", async () => {
