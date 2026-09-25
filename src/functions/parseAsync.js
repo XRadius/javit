@@ -4,6 +4,7 @@ import sanitizeFilename from "sanitize-filename";
 
 import { getCode } from "./getCode.js";
 import { searchAsync } from "./searchAsync.js";
+import { getFanartAsync } from "./utils/getFanartAsync.js";
 import { getPosterAsync } from "./utils/getPosterAsync.js";
 
 /** @param {string} filePath */
@@ -32,8 +33,9 @@ export async function parseAsync(filePath) {
  */
 async function downloadAsync(directoryPath, imageUrl, name) {
   const response = await fetch(imageUrl);
-  const fanart = await response.arrayBuffer().then(Buffer.from.bind(Buffer));
-  const poster = await getPosterAsync(fanart);
+  const buffer = await response.arrayBuffer().then(Buffer.from.bind(Buffer));
+  const fanart = await getFanartAsync(buffer);
+  const poster = await getPosterAsync(buffer);
   await writeImageAsync(path.join(directoryPath, `${name}-fanart.jpg`), fanart);
   await writeImageAsync(path.join(directoryPath, `${name}.jpg`), poster);
 }
