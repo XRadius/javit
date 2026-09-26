@@ -15,7 +15,7 @@ export async function searchAsync(code) {
 
 /** @param {string} title */
 function isAcceptableTitle(title) {
-  const expression = /[\u4E00-\u9FFF\u3040-\u309F\u30A0-\u30FF]/g;
+  const expression = /[\u{4E00}-\u{9FFF}\u{3040}-\u{309F}\u{30A0}-\u{30FF}]/gu;
   const characters = title.match(expression) || [];
   return characters.length / title.length <= 0.5;
 }

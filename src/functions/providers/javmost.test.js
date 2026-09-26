@@ -12,5 +12,5 @@ const target = {
 await test("javmost", async () => {
   const metadata = await tryJavMost(target.code);
   strictEqual(metadata?.imageUrl.pathname, target.imagePath);
-  strictEqual(metadata?.title, target.title);
+  strictEqual(metadata.title, target.title);
 });

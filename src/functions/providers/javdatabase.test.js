@@ -12,5 +12,5 @@ const target = {
 await test("javdatabase", async () => {
   const metadata = await tryJavDatabase(target.code);
   strictEqual(metadata?.imageUrl.pathname, target.imagePath);
-  strictEqual(metadata?.title, target.title);
+  strictEqual(metadata.title, target.title);
 });

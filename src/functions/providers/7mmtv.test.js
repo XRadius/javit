@@ -12,5 +12,5 @@ const target = {
 await test("7mmtv", async () => {
   const metadata = await try7mmtv(target.code);
   strictEqual(metadata?.imageUrl.pathname, target.imagePath);
-  strictEqual(metadata?.title, target.title);
+  strictEqual(metadata.title, target.title);
 });
