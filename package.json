@@ -19,9 +19,17 @@
     "prettier-plugin-jsdoc": "1.8.1",
     "typescript": "6.0.3"
   },
-  "engines": {
-    "node": ">= 24.0.0",
-    "npm": ">= 10.0.0"
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "onFail": "error",
+      "version": ">= 10"
+    },
+    "runtime": {
+      "name": "node",
+      "onFail": "error",
+      "version": ">= 24"
+    }
   },
   "scripts": {
     "format:check": "prettier --check .",
