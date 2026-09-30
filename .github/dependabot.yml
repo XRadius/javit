@@ -1,0 +1,21 @@
+version: 2
+updates:
+  - directory: /
+    package-ecosystem: github-actions
+    multi-ecosystem-group: all
+    patterns:
+      - "*"
+  - directory: /
+    package-ecosystem: npm
+    multi-ecosystem-group: all
+    patterns:
+      - "*"
+    ignore:
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-major
+multi-ecosystem-groups:
+  all:
+    schedule:
+      day: thursday
+      interval: weekly
