@@ -9,10 +9,10 @@
   "dependencies": {
     "cheerio": "1.2.0",
     "sanitize-filename": "1.6.4",
-    "sharp": "0.35.4"
+    "sharp": "0.35.5"
   },
   "devDependencies": {
-    "@types/node": "24.13.6",
+    "@types/node": "26.6.3",
     "eslint": "10.11.0",
     "eslint-config-porcupine": "0.3.1",
     "prettier": "3.9.9",
