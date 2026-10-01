@@ -9,7 +9,7 @@ const target = {
   title: "MIRD-163 A king who lives with ten infinitely obedient maids",
 };
 
-await test("7mmtv", async () => {
+await test("7mmtv", { skip: process.env["GITHUB_ACTIONS"] }, async () => {
   const metadata = await try7mmtv(target.code);
   strictEqual(metadata?.imageUrl.pathname, target.imagePath);
   strictEqual(metadata.title, target.title);

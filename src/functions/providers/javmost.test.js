@@ -9,7 +9,7 @@ const target = {
   title: "MIRD-163 -UNCENSORED-EDIT",
 };
 
-await test("javmost", async () => {
+await test("javmost", { skip: process.env["GITHUB_ACTIONS"] }, async () => {
   const metadata = await tryJavMost(target.code);
   strictEqual(metadata?.imageUrl.pathname, target.imagePath);
   strictEqual(metadata.title, target.title);

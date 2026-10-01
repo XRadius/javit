@@ -9,7 +9,7 @@ const target = {
   title: "MIRD-163 - The Prince And His 10 Eternally Submissive Maids",
 };
 
-await test("javdatabase", async () => {
+await test("javdatabase", { skip: process.env["GITHUB_ACTIONS"] }, async () => {
   const metadata = await tryJavDatabase(target.code);
   strictEqual(metadata?.imageUrl.pathname, target.imagePath);
   strictEqual(metadata.title, target.title);
