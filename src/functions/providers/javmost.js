@@ -15,7 +15,7 @@ export async function tryJavMost(code) {
 /** @param {string} code */
 async function getAsync(code) {
   const search = encodeURIComponent(code);
-  const url = new URL(`https://www.javmost.com/search/${search}/`);
+  const url = new URL(`https://www.javmost.ws/search/${search}/`);
   return await fetch(url);
 }
 
