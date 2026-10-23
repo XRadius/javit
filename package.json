@@ -12,10 +12,10 @@
     "sharp": "0.35.4"
   },
   "devDependencies": {
-    "@types/node": "24.13.6",
-    "eslint": "10.11.0",
-    "eslint-config-porcupine": "0.3.1",
-    "prettier": "3.9.9",
+    "@types/node": "24.19.2",
+    "eslint": "10.13.0",
+    "eslint-config-porcupine": "0.4.0",
+    "prettier": "3.9.10",
     "prettier-plugin-jsdoc": "1.8.1",
     "typescript": "6.0.3"
   },

@@ -7,7 +7,7 @@ const providers = [try7mmtv, tryJavDatabase, tryJavMost];
 export async function searchAsync(code) {
   for (const providerAsync of providers) {
     const metadata = await providerAsync(code).catch(() => {});
-    const hasMatch = metadata ? isAcceptableTitle(metadata.title) : false;
+    const hasMatch = metadata && isAcceptableTitle(metadata.title);
     if (hasMatch) return metadata;
   }
   return;
