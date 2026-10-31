@@ -2,10 +2,11 @@ import fs from "node:fs";
 import path from "node:path";
 
 import * as javit from "../index.js";
+import { Options } from "./Options.js";
 
 /**
  * @param {string[]} paths
- * @param {{ force?: boolean }} options
+ * @param {Options} options
  */
 export async function parseAsync(paths, options) {
   for (const path of paths) {

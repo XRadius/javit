@@ -1,13 +1,13 @@
 # javit
 
-A CLI tool that fetches metadata for JAV videos, **renames your local files** to match online titles, and **downloads high-quality images** to make your collection look polished and professional. While this is especially useful for [Plex](https://www.plex.tv/), which requires local artwork for proper display in "Other Videos" library types, the output is compatible with any media manager that supports local metadata.
+A CLI tool that fetches metadata for JAV videos, **renames your local files** to match online titles, and **downloads high-quality images** to make your collection look polished. While this is especially useful for [Plex](https://www.plex.tv/), which requires local artwork to properly display in the _Other Videos_ library type, the output is compatible with any media manager that supports local metadata.
 
 ## Quick Start
 
 Run with **npm (using npx)**:
 
 ```bash
-npx javit parse /path/to/file-or-directory
+npx javit /path/to/file-or-directory
 ```
 
 ## Installation
@@ -25,7 +25,7 @@ npm install -g javit
 Then run:
 
 ```bash
-javit parse /path/to/file-or-directory
+javit /path/to/file-or-directory
 ```
 
 ### From Source
@@ -41,41 +41,21 @@ npm install
 Then run with **node**:
 
 ```bash
-node bin/cli.js parse /path/to/file-or-directory
+node bin/cli.js /path/to/file-or-directory
 ```
 
-## Usage
+## Configuration
+
+You can configure the CLI with options when running through npm or from source.
+
+| CLI           | Default | Description                                    |
+| ------------- | ------- | ---------------------------------------------- |
+| **`--force`** | `false` | Process videos even when images already exist. |
+
+For example:
 
 ```bash
-javit <parse|search>
-```
-
-### Parse
-
-Fetches metadata, **renames your local files** and **downloads high-quality images**:
-
-```bash
-javit parse [--force] <paths...>
-```
-
-Example:
-
-```bash
-javit parse /path/to/file-or-directory
-```
-
-### Search
-
-Searches metadata and outputs metadata in `JSON`:
-
-```bash
-javit search <name>
-```
-
-Example:
-
-```bash
-javit search MIRD-163
+javit --force /path/to/file-or-directory
 ```
 
 ## Contributions

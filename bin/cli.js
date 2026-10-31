@@ -1,43 +1,28 @@
 #!/usr/bin/env node
-import { parseArgs } from "node:util";
-
+import { Options } from "../src/actions/Options.js";
 import { parseAsync } from "../src/actions/parseAsync.js";
-import { searchAsync } from "../src/actions/searchAsync.js";
 
-switch (process.argv[2]) {
-  case "parse":
-    await execParseAsync();
-    break;
-  case "search":
-    await execSearchAsync();
-    break;
-  default:
-    console.log("Usage: javit <parse|search>");
-    break;
-}
+const args = process.argv.slice(2);
+const options = new Options();
+const paths = [];
 
-async function execParseAsync() {
-  const { positionals, values } = parseArgs({
-    args: process.argv.slice(3),
-    options: { force: { type: "boolean" } },
-    strict: false,
-  });
-  if (positionals.length > 0) {
-    const force = Boolean(values.force);
-    await parseAsync(positionals, { force });
-  } else {
-    console.log("Usage: javit parse [--force] <paths...>");
+for (let index = 0; index < args.length; index++) {
+  const parameter = args[index] || "";
+
+  switch (parameter) {
+    case "--force":
+      options.force = true;
+      break;
+    default:
+      paths.push(parameter);
+      break;
   }
 }
 
-async function execSearchAsync() {
-  const { positionals } = parseArgs({
-    args: process.argv.slice(3),
-    strict: false,
-  });
-  if (positionals[0]) {
-    await searchAsync(positionals[0]);
-  } else {
-    console.log("Usage: javit search <name>");
-  }
+if (paths.length) {
+  await parseAsync(paths, options);
+} else {
+  const descriptors = "[--force]";
+  console.log(`Usage: javit ${descriptors} <paths...>`);
+  process.exit(1);
 }
